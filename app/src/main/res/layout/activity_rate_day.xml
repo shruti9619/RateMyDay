@@ -56,7 +56,7 @@
             android:text="@string/savebutton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" android:layout_alignParentBottom="true"
-            android:id="@+id/button" android:layout_marginRight="20px"
+            android:id="@+id/saveratingbutton" android:layout_marginRight="20px"
             android:layout_marginLeft="20px" android:layout_alignParentEnd="true"
             android:layout_alignParentStart="true" android:background="@color/colorAccent"/>
 
@@ -68,16 +68,16 @@
             android:textSize="48px" android:textAlignment="center"
             android:textColor="@android:color/holo_red_dark" android:layout_marginLeft="40px"
             android:layout_marginRight="40px"
-            android:layout_below="@+id/horizontalScrollView2" android:layout_alignStart="@+id/editText"
+            android:layout_below="@+id/horizontalScrollView2" android:layout_alignStart="@+id/feedbacktext"
             android:layout_marginTop="17dp"/>
     <EditText
             android:layout_width="match_parent"
             android:inputType="textMultiLine"
             android:hint="@string/sharelabelhint"
             android:ems="10"
-            android:id="@+id/editText" android:layout_marginLeft="20px"
+            android:id="@+id/feedbacktext" android:layout_marginLeft="20px"
             android:layout_marginRight="20px"
             android:layout_height="250px"
             android:background="?attr/colorControlHighlight" android:padding="10px"
-            android:layout_below="@+id/sharetextlabel" android:layout_alignEnd="@+id/button"/>
+            android:layout_below="@+id/sharetextlabel" android:layout_alignEnd="@+id/saveratingbutton"/>
 </RelativeLayout>
