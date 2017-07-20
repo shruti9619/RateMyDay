@@ -17,18 +17,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.*;
+import com.learn.shruti.ratemyday.Model.Employee;
 import com.learn.shruti.ratemyday.Model.Review;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -52,6 +48,8 @@ public class ShowDataActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mReviewAdapter);
 
         auth = FirebaseAuth.getInstance();
+
+
 
 
 
@@ -208,7 +206,7 @@ public class ShowDataActivity extends AppCompatActivity {
         }
 
 
-        public void getDataFromFirebase()
+        private void getDataFromFirebase()
         {
             user = auth.getCurrentUser();
             final String userEmail = user.getEmail();
@@ -235,6 +233,41 @@ public class ShowDataActivity extends AppCompatActivity {
                 }
             });
 
+        }
+
+
+        private String getUsername()
+        {
+            user = auth.getCurrentUser();
+            final String userEmail = user.getEmail();
+            String name = null;
+            DatabaseReference uRef = FirebaseDatabase.getInstance().getReference("users");
+
+            mDatabase.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                        //Getting the data from snapshot
+                        Employee emp = postSnapshot.getValue(Employee.class);
+
+                        if(emp.empEmail == userEmail)
+                        {
+                            final String name = emp.empName;
+                            break;
+                        }
+
+                        //Toast.makeText(ShowDataActivity.this,"com: " + r.comments + ", rate " + r.rating,Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    // Failed to read value
+                    Log.w("SOme Tag: ", "Failed to read value.", error.toException());
+                }
+            });
+            return name;
         }
 
 

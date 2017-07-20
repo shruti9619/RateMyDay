@@ -6,8 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.*;
+import com.learn.shruti.ratemyday.Model.Employee;
 import com.learn.shruti.ratemyday.Model.Review;
 
 import java.util.Date;
@@ -60,19 +60,41 @@ public class RateDayActivity extends AppCompatActivity {
     private void writeRatingsToFirebase()
     {
         user = auth.getCurrentUser();
-        String userEmail = user.getEmail();
+        final String userEmail = user.getEmail();
 
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+        Query usernamequery = mDatabase.child("users").orderByChild("empEmail").equalTo(userEmail);
+        usernamequery.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    //Getting the data from snapshot
+                    Employee r = postSnapshot.getValue(Employee.class);
 
-        //right now the name is being hardcoded next you need to fetch the name from users
-        // by checking the emailid
-       DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("reviews");
-       Review newrev = new Review(dayratingbar.getRating(),new Date().toString(),
-               feedbacktext.getText().toString(),"Jingle",userEmail);
+                    //review is only added once user with auth email is found
+                    if(r.empEmail == userEmail)
+                    {
 
-        // pushing review to 'reviews' node using the uniqueID
-        mDatabase.child(mDatabase.push().getKey()).setValue(newrev);
+                        DatabaseReference uDatabase = FirebaseDatabase.getInstance().getReference("reviews");
+                        Review newrev = new Review(dayratingbar.getRating(),new Date().toString(),
+                                feedbacktext.getText().toString(),r.empName,userEmail);
 
-        Toast.makeText(this,"Saved",Toast.LENGTH_SHORT).show();
+                        // pushing review to 'reviews' node using the uniqueID
+                        uDatabase.child(uDatabase.push().getKey()).setValue(newrev);
+
+                        Toast.makeText(RateDayActivity.this,"Saved",Toast.LENGTH_SHORT).show();
+
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
 
     }
 }
