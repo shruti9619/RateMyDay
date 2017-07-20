@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.google.firebase.auth.FirebaseUser;
 import com.learn.shruti.ratemyday.Model.Review;
 
 import java.util.ArrayList;
@@ -29,12 +30,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+
 public class ShowDataActivity extends AppCompatActivity {
 
     RecyclerView mRecyclerView;
     private List<Review> reviewList;
     private ReviewAdapter mReviewAdapter;
-
+    private FirebaseAuth auth;
+    FirebaseUser user;
     DatabaseReference mDatabase;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +50,8 @@ public class ShowDataActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mReviewAdapter = new ReviewAdapter();
         mRecyclerView.setAdapter(mReviewAdapter);
+
+        auth = FirebaseAuth.getInstance();
 
 
 
@@ -203,6 +210,9 @@ public class ShowDataActivity extends AppCompatActivity {
 
         public void getDataFromFirebase()
         {
+            user = auth.getCurrentUser();
+            final String userEmail = user.getEmail();
+
 
             mDatabase.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -211,7 +221,9 @@ public class ShowDataActivity extends AppCompatActivity {
                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                         //Getting the data from snapshot
                         Review r = postSnapshot.getValue(Review.class);
-                        reviewList.add(r);
+
+                        if(r.employeeEmail == userEmail)
+                            reviewList.add(r);
                         //Toast.makeText(ShowDataActivity.this,"com: " + r.comments + ", rate " + r.rating,Toast.LENGTH_SHORT).show();
                          }
                 }
