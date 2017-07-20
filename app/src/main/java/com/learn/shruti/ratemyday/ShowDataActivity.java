@@ -1,5 +1,9 @@
 package com.learn.shruti.ratemyday;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +19,7 @@ import android.widget.Toast;
 import com.learn.shruti.ratemyday.Model.Review;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -37,6 +42,9 @@ public class ShowDataActivity extends AppCompatActivity {
         setContentView(R.layout.activity_show_data);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycleView);
         reviewList = new ArrayList<>();
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mReviewAdapter = new ReviewAdapter();
+        mRecyclerView.setAdapter(mReviewAdapter);
 
 
 
@@ -54,10 +62,6 @@ public class ShowDataActivity extends AppCompatActivity {
             reviewList.add(r);
         }*/
 
-
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mReviewAdapter = new ReviewAdapter();
-        mRecyclerView.setAdapter(mReviewAdapter);
 
 
         mReviewAdapter.setOnLoadMoreListener(new OnLoadMoreListener() {
@@ -84,12 +88,12 @@ public class ShowDataActivity extends AppCompatActivity {
                         }*/
                         mReviewAdapter.notifyDataSetChanged();
                         mReviewAdapter.setLoaded();
-            }
-        }, 2000);
-    }
-});
+                                                }
+                            }, 2000);
+                }
+        });
 
-
+        alarmSetter();
 
 
     }
@@ -199,13 +203,6 @@ public class ShowDataActivity extends AppCompatActivity {
 
         public void getDataFromFirebase()
         {
-//            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("users");
-
-            /*Review newrev = new Review(9.0,"3/1/2017","phone comments","Jingle","22");
-
-            //Toast.makeText(this,mDatabase.toString(),Toast.LENGTH_SHORT).show();
-// pushing user to 'users' node using the userId
-            mDatabase.child(mDatabase.push().getKey()).setValue(newrev);*/
 
             mDatabase.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -228,5 +225,29 @@ public class ShowDataActivity extends AppCompatActivity {
 
         }
 
+
+        private void alarmSetter()
+        {
+            PendingIntent pendingIntent;
+             /* Retrieve a PendingIntent that will perform a broadcast */
+            Intent alarmIntent = new Intent(ShowDataActivity.this, AlarmReceiver.class);
+            pendingIntent = PendingIntent.getBroadcast(ShowDataActivity.this, 0, alarmIntent, 0);
+            AlarmManager manager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+
+        /* Set the alarm to start at 8.00 PM */
+
+            Calendar alarmStartTime = Calendar.getInstance();
+            Calendar now = Calendar.getInstance();
+            alarmStartTime.set(Calendar.HOUR_OF_DAY, 16);
+            alarmStartTime.set(Calendar.MINUTE, 00);
+            alarmStartTime.set(Calendar.SECOND, 0);
+            if (now.after(alarmStartTime)) {
+
+                alarmStartTime.add(Calendar.DATE, 1);
+            }
+        /* Repeating every day at 8 pm */
+            manager.setRepeating(AlarmManager.RTC_WAKEUP, alarmStartTime.getTimeInMillis(),
+                    AlarmManager.INTERVAL_DAY, pendingIntent);
+        }
 
 }

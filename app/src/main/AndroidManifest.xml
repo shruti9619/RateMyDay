@@ -28,6 +28,17 @@
         </activity>
         <activity android:name=".ShowDataActivity">
         </activity>
+
+        <receiver
+                android:name=".AlarmReceiver"
+                android:enabled="true"
+                android:exported="true">
+        </receiver>
+        <receiver
+                android:name=".DeviceOnReceiver"
+                android:enabled="true"
+                android:exported="true">
+        </receiver>
     </application>
 
 </manifest>
