@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "815799293626",
+    "firebase_url": "https://ratemyday-291f8.firebaseio.com",
+    "project_id": "ratemyday-291f8",
+    "storage_bucket": "ratemyday-291f8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:815799293626:android:e347b7dd2d6c92ff",
+        "android_client_info": {
+          "package_name": "com.learn.shruti.ratemyday"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "815799293626-72ourmdt3sl0bh01ec9bl4g10ad90g5f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC55X9hn5oPHxBm-pZ3EbC2HHxoGfxEqCg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
