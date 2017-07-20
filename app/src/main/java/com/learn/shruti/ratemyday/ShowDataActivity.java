@@ -27,7 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 public class ShowDataActivity extends AppCompatActivity {
 
     RecyclerView mRecyclerView;
-    private List<Review> reviewList = new ArrayList<>();
+    private List<Review> reviewList;
     private ReviewAdapter mReviewAdapter;
 
     DatabaseReference mDatabase;
@@ -38,14 +38,21 @@ public class ShowDataActivity extends AppCompatActivity {
         mRecyclerView = (RecyclerView) findViewById(R.id.recycleView);
         reviewList = new ArrayList<>();
 
+
+
         mDatabase = FirebaseDatabase.getInstance().getReference("reviews");
         try {
             getDataFromFirebase();
         }
         catch (Exception e)
         {
-            Toast.makeText(this,"there was an except "+e.getMessage(),Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Data fetch failed! Please try again ",Toast.LENGTH_SHORT).show();
         }
+
+        /*for (int i = 0; i < 30; i++) {
+            Review r = new Review(i,new Date().toString(),"alibaba" + i + "@gmail.com");
+            reviewList.add(r);
+        }*/
 
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -67,19 +74,18 @@ public class ShowDataActivity extends AppCompatActivity {
 
                         //Remove loading item
                         reviewList.remove(reviewList.size() - 1);
-                mReviewAdapter.notifyItemRemoved(reviewList.size());
-                //Load data
-                int index = reviewList.size();
-                //here add code to add more data to list
-               /* int end = index + 20;
-                for (int i = index; i < end; i++) {
-                    Review user = new Review(i,new Date().toString(),"alibaba" + i + "@gmail.com");
-                    reviewList.add(user);
-                }*/
-                mReviewAdapter.notifyDataSetChanged();
-                mReviewAdapter.setLoaded();
+                        mReviewAdapter.notifyItemRemoved(reviewList.size());
+                        //Load data
+                        /*int index = reviewList.size();
+                        int end = index + 20;
+                        for (int i = index; i < end; i++) {
+                            Review user = new Review(i,new Date().toString(),"alibaba" + i + "@gmail.com");
+                            reviewList.add(user);
+                        }*/
+                        mReviewAdapter.notifyDataSetChanged();
+                        mReviewAdapter.setLoaded();
             }
-        }, 5000);
+        }, 2000);
     }
 });
 
@@ -171,8 +177,8 @@ public class ShowDataActivity extends AppCompatActivity {
 
 
                     userViewHolder.tvrating.setText(String.valueOf(r.rating));
-                    userViewHolder.tvdate.setText(r.dateOfReview.toString());
-                    userViewHolder.tvmsg.setText(r.comments.toString());
+                    userViewHolder.tvdate.setText(r.dateOfReview);
+                    userViewHolder.tvmsg.setText(r.comments);
 
                 } else if (holder instanceof LoadingViewHolder) {
                     LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;
