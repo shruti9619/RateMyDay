@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.learn.shruti.ratemyday">
-
-    <uses-permission android:name="android.permission.INTERNET"/>
+    
 
     <application
             android:allowBackup="true"
@@ -11,6 +10,7 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
         <uses-permission android:name="android.permission.INTERNET"/>
+        <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
         <activity android:name=".LoginSignupActivity">
             <intent-filter>
@@ -33,11 +33,17 @@
                 android:name=".AlarmReceiver"
                 android:enabled="true"
                 android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
         </receiver>
         <receiver
                 android:name=".DeviceOnReceiver"
                 android:enabled="true"
                 android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
         </receiver>
     </application>
 
