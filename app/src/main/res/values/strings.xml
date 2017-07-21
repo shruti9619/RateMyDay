@@ -3,6 +3,7 @@
 
     <string name="action_sign_in_short">Register</string>
     <string name="email">Email</string>
+    <string name="search">Date eg. 31/02/2017</string>
     <string name="savebutton">Save</string>
     <string name="radioabsent">Were you absent today?</string>
     <string name="sharelabeltext">Got something to share?</string>

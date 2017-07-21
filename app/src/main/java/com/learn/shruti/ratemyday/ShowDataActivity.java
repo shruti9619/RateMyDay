@@ -2,17 +2,19 @@ package com.learn.shruti.ratemyday;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -101,6 +103,48 @@ public class ShowDataActivity extends AppCompatActivity {
         alarmSetter();
 
 
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.search, menu);
+        MenuItem searchItem = menu.findItem(R.id.search);
+        final SearchManager searchManager =
+                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView =
+                (SearchView) MenuItemCompat.getActionView(searchItem);
+
+        searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(getComponentName()));
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Toast.makeText(ShowDataActivity.this,"submitted",Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                Toast.makeText(ShowDataActivity.this,"textchanged",Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
+
+        MenuItemCompat.OnActionExpandListener expandListener = new MenuItemCompat.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem menuItem) {
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem menuItem) {
+
+                return true;
+            }
+        };
+        MenuItemCompat.setOnActionExpandListener(searchItem, expandListener);
+        return super.onCreateOptionsMenu(menu);
     }
 
 
@@ -206,6 +250,8 @@ public class ShowDataActivity extends AppCompatActivity {
         }
 
 
+
+
         private void getDataFromFirebase()
         {
             user = auth.getCurrentUser();
@@ -222,7 +268,7 @@ public class ShowDataActivity extends AppCompatActivity {
 
                         if(r.employeeEmail == userEmail)
                             reviewList.add(r);
-                        //Toast.makeText(ShowDataActivity.this,"com: " + r.comments + ", rate " + r.rating,Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ShowDataActivity.this,"com: " + r.comments + ", rate " + r.rating,Toast.LENGTH_SHORT).show();
                          }
                 }
 
@@ -235,40 +281,6 @@ public class ShowDataActivity extends AppCompatActivity {
 
         }
 
-
-        private String getUsername()
-        {
-            user = auth.getCurrentUser();
-            final String userEmail = user.getEmail();
-            String name = null;
-            DatabaseReference uRef = FirebaseDatabase.getInstance().getReference("users");
-
-            mDatabase.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-
-                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                        //Getting the data from snapshot
-                        Employee emp = postSnapshot.getValue(Employee.class);
-
-                        if(emp.empEmail == userEmail)
-                        {
-                            final String name = emp.empName;
-                            break;
-                        }
-
-                        //Toast.makeText(ShowDataActivity.this,"com: " + r.comments + ", rate " + r.rating,Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError error) {
-                    // Failed to read value
-                    Log.w("SOme Tag: ", "Failed to read value.", error.toException());
-                }
-            });
-            return name;
-        }
 
 
         private void alarmSetter()
@@ -283,8 +295,8 @@ public class ShowDataActivity extends AppCompatActivity {
 
             Calendar alarmStartTime = Calendar.getInstance();
             Calendar now = Calendar.getInstance();
-            alarmStartTime.set(Calendar.HOUR_OF_DAY, 16);
-            alarmStartTime.set(Calendar.MINUTE, 00);
+            alarmStartTime.set(Calendar.HOUR_OF_DAY, 1);
+            alarmStartTime.set(Calendar.MINUTE, 45);
             alarmStartTime.set(Calendar.SECOND, 0);
             if (now.after(alarmStartTime)) {
 
