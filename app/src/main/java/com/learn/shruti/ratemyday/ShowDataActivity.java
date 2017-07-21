@@ -35,6 +35,7 @@ public class ShowDataActivity extends AppCompatActivity {
 
     RecyclerView mRecyclerView;
     private List<Review> reviewList;
+    private List<Review> reviewsearchList;
     private ReviewAdapter mReviewAdapter;
     private FirebaseAuth auth;
     FirebaseUser user;
@@ -45,6 +46,7 @@ public class ShowDataActivity extends AppCompatActivity {
         setContentView(R.layout.activity_show_data);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycleView);
         reviewList = new ArrayList<>();
+        reviewsearchList = new ArrayList<>();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mReviewAdapter = new ReviewAdapter();
         mRecyclerView.setAdapter(mReviewAdapter);
@@ -112,21 +114,43 @@ public class ShowDataActivity extends AppCompatActivity {
         MenuItem searchItem = menu.findItem(R.id.search);
         final SearchManager searchManager =
                 (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView =
+        final SearchView searchView =
                 (SearchView) MenuItemCompat.getActionView(searchItem);
 
-        searchView.setSearchableInfo(
-                searchManager.getSearchableInfo(getComponentName()));
+        //searchView.setSearchableInfo(
+          //      searchManager.getSearchableInfo(getComponentName()));
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+
+                if(query.length()!=10)
+                    Toast.makeText(ShowDataActivity.this,"Format dd/mm/yyyy",Toast.LENGTH_SHORT).show();
+                else
+                {
+                    Boolean flag = false;
+                    for (Review r : reviewList )
+                    {
+                        if(r.dateOfReview == query)
+                        {
+                            //DONT CLEAR THE Main list . rather create a new list which has your single element and then
+                            // pass it to the recycleview
+                            reviewsearchList.add(r);
+                            flag = true;
+                        }
+                    }
+                    if (!flag)
+                    {
+                        searchView.setQuery("No Matches!", false);
+                    }
+                }
+
                 Toast.makeText(ShowDataActivity.this,"submitted",Toast.LENGTH_SHORT).show();
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                Toast.makeText(ShowDataActivity.this,"textchanged",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(ShowDataActivity.this,"textchanged",Toast.LENGTH_SHORT).show();
                 return false;
             }
         });
