@@ -50,7 +50,7 @@ public class ShowDataActivity extends AppCompatActivity {
         reviewList = new ArrayList<>();
         reviewsearchList = new ArrayList<>();
 
-        mRecyclerView.setHasFixedSize(true);
+        //mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
@@ -67,6 +67,7 @@ public class ShowDataActivity extends AppCompatActivity {
         }
 
         rvadapter = new ReviewAdapter(reviewList);
+        mRecyclerView.setAdapter(rvadapter);
 
         alarmSetter();
 
@@ -96,7 +97,7 @@ public class ShowDataActivity extends AppCompatActivity {
                     Boolean flag = false;
                     for (Review r : reviewList )
                     {
-                        if(r.dateOfReview == query)
+                        if(r.dateOfReview.equalsIgnoreCase( query))
                         {
                             //DONT CLEAR THE Main list . rather create a new list which has your single element and then
                             // pass it to the recycleview
@@ -107,6 +108,10 @@ public class ShowDataActivity extends AppCompatActivity {
                     if (!flag)
                     {
                         searchView.setQuery("No Matches!", false);
+                    }
+                    else
+                    {
+                        rvadapter = new ReviewAdapter(reviewsearchList);
                     }
                 }
 
@@ -153,7 +158,7 @@ public class ShowDataActivity extends AppCompatActivity {
                         //Getting the data from snapshot
                         Review r = postSnapshot.getValue(Review.class);
 
-                        if(r.employeeEmail == userEmail)
+                        if(r.employeeEmail.equals(userEmail))
                             reviewList.add(r);
                         Toast.makeText(ShowDataActivity.this,"com: " + r.comments + ", rate " + r.rating,Toast.LENGTH_SHORT).show();
                          }
