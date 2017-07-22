@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.*;
@@ -71,6 +72,7 @@ public class ShowDataActivity extends AppCompatActivity {
 
         rvadapter = new ReviewAdapter(reviewList);
         mRecyclerView.setAdapter(rvadapter);
+        rvadapter.notifyDataSetChanged();
 
         alarmSetter();
 
@@ -82,13 +84,27 @@ public class ShowDataActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.search, menu);
         searchItem = menu.findItem(R.id.search);
-        final SearchManager searchManager =
-                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+
         searchView =
                 (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setQueryHint(Html.fromHtml("<font color = #ffffff>" + getResources().getString(R.string.search) + "</font>"));
 
-        //searchView.setSearchableInfo(
-          //      searchManager.getSearchableInfo(getComponentName()));
+
+
+        searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean isFocused) {
+                if(!isFocused)
+                {
+                    Toast.makeText(ShowDataActivity.this,"bar not focused now",Toast.LENGTH_SHORT).show();
+                    searchView.setQuery("", false);
+                    reviewsearchList.clear();
+                    rvadapter = new ReviewAdapter(reviewList);
+                    mRecyclerView.setAdapter(rvadapter);
+                    rvadapter.notifyDataSetChanged();
+                }
+            }
+        });
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -116,6 +132,7 @@ public class ShowDataActivity extends AppCompatActivity {
                     {
                         rvadapter = new ReviewAdapter(reviewsearchList);
                         mRecyclerView.setAdapter(rvadapter);
+                        rvadapter.notifyDataSetChanged();
                     }
                 }
 
@@ -126,9 +143,13 @@ public class ShowDataActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 //Toast.makeText(ShowDataActivity.this,"textchanged",Toast.LENGTH_SHORT).show();
+                reviewsearchList.clear();
+                rvadapter.notifyDataSetChanged();
                 return false;
             }
         });
+
+
 
         MenuItemCompat.OnActionExpandListener expandListener = new MenuItemCompat.OnActionExpandListener() {
             @Override
@@ -164,9 +185,10 @@ public class ShowDataActivity extends AppCompatActivity {
 
                         if(r.employeeEmail.equals(userEmail))
                             reviewList.add(r);
-                            mRecyclerView.setAdapter(new ReviewAdapter(reviewList));
+
                         //Toast.makeText(ShowDataActivity.this,"com: " + r.comments + ", rate " + r.rating,Toast.LENGTH_SHORT).show();
                          }
+
                 }
 
                 @Override
@@ -209,10 +231,13 @@ public class ShowDataActivity extends AppCompatActivity {
     public void onBackPressed() {
 
         searchItem.expandActionView();
+
         searchView.setQuery("", false);
         searchView.clearFocus();
+        reviewsearchList.clear();
         rvadapter = new ReviewAdapter(reviewList);
         mRecyclerView.setAdapter(rvadapter);
+        rvadapter.notifyDataSetChanged();
         super.onBackPressed();
     }
 }
