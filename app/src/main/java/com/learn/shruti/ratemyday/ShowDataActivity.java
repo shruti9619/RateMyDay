@@ -41,6 +41,9 @@ public class ShowDataActivity extends AppCompatActivity {
     FirebaseUser user;
     DatabaseReference mDatabase;
     private ReviewAdapter rvadapter;
+    MenuItem searchItem;
+    SearchView searchView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,10 +81,10 @@ public class ShowDataActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.search, menu);
-        MenuItem searchItem = menu.findItem(R.id.search);
+        searchItem = menu.findItem(R.id.search);
         final SearchManager searchManager =
                 (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        final SearchView searchView =
+        searchView =
                 (SearchView) MenuItemCompat.getActionView(searchItem);
 
         //searchView.setSearchableInfo(
@@ -199,4 +202,13 @@ public class ShowDataActivity extends AppCompatActivity {
                     AlarmManager.INTERVAL_DAY, pendingIntent);
         }
 
+
+    @Override
+    public void onBackPressed() {
+
+        searchItem.expandActionView();
+        searchView.setQuery("", false);
+        searchView.clearFocus();
+        super.onBackPressed();
+    }
 }
