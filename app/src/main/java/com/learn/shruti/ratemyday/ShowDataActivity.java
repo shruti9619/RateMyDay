@@ -40,6 +40,8 @@ public class ShowDataActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     FirebaseUser user;
     DatabaseReference mDatabase;
+    private ReviewAdapter rvadapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,15 +49,13 @@ public class ShowDataActivity extends AppCompatActivity {
         mRecyclerView = (RecyclerView) findViewById(R.id.recycleView);
         reviewList = new ArrayList<>();
         reviewsearchList = new ArrayList<>();
+
+        mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mReviewAdapter = new ReviewAdapter();
-        mRecyclerView.setAdapter(mReviewAdapter);
+
+
 
         auth = FirebaseAuth.getInstance();
-
-
-
-
 
         mDatabase = FirebaseDatabase.getInstance().getReference("reviews");
         try {
@@ -66,41 +66,7 @@ public class ShowDataActivity extends AppCompatActivity {
             Toast.makeText(this,"Data fetch failed! Please try again ",Toast.LENGTH_SHORT).show();
         }
 
-        /*for (int i = 0; i < 30; i++) {
-            Review r = new Review(i,new Date().toString(),"alibaba" + i + "@gmail.com");
-            reviewList.add(r);
-        }*/
-
-
-
-        mReviewAdapter.setOnLoadMoreListener(new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore() {
-
-                reviewList.add(null);
-                mReviewAdapter.notifyItemInserted(reviewList.size() - 1);
-
-
-                //Load more data for reyclerview
-                new Handler().postDelayed(new Runnable() {
-                    @Override public void run() {
-
-                        //Remove loading item
-                        reviewList.remove(reviewList.size() - 1);
-                        mReviewAdapter.notifyItemRemoved(reviewList.size());
-                        //Load data
-                        /*int index = reviewList.size();
-                        int end = index + 20;
-                        for (int i = index; i < end; i++) {
-                            Review user = new Review(i,new Date().toString(),"alibaba" + i + "@gmail.com");
-                            reviewList.add(user);
-                        }*/
-                        mReviewAdapter.notifyDataSetChanged();
-                        mReviewAdapter.setLoaded();
-                                                }
-                            }, 2000);
-                }
-        });
+        rvadapter = new ReviewAdapter(reviewList);
 
         alarmSetter();
 
@@ -170,109 +136,6 @@ public class ShowDataActivity extends AppCompatActivity {
         MenuItemCompat.setOnActionExpandListener(searchItem, expandListener);
         return super.onCreateOptionsMenu(menu);
     }
-
-
-        static class UserViewHolder extends RecyclerView.ViewHolder {
-            public TextView tvrating;
-            public TextView tvdate;
-            public TextView tvmsg;
-
-            public UserViewHolder(View itemView) {
-                super(itemView);
-                tvrating = (TextView) itemView.findViewById(R.id.tvrating);
-                tvdate = (TextView) itemView.findViewById(R.id.tvdate);
-                tvmsg = (TextView) itemView.findViewById(R.id.tvmsg);
-            }
-        }
-
-
-        static class LoadingViewHolder extends RecyclerView.ViewHolder {
-            public ProgressBar progressBar;
-
-            public LoadingViewHolder(View itemView) {
-                super(itemView);
-                progressBar = (ProgressBar) itemView.findViewById(R.id.progressBar1);
-            }
-        }
-
-
-        class ReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-            private final int VIEW_TYPE_ITEM = 0;
-            private final int VIEW_TYPE_LOADING = 1;
-            private OnLoadMoreListener mOnLoadMoreListener;
-            private boolean isLoading;
-            private int visibleThreshold = 5;
-            private int lastVisibleItem, totalItemCount;
-
-            public ReviewAdapter() {
-
-                final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) mRecyclerView.getLayoutManager();
-
-
-                mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                    @Override
-                    public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                        super.onScrolled(recyclerView, dx, dy);
-                        totalItemCount = linearLayoutManager.getItemCount();
-                        lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
-                        if (!isLoading && totalItemCount <= (lastVisibleItem + visibleThreshold)) {
-                            if (mOnLoadMoreListener != null) {
-                                mOnLoadMoreListener.onLoadMore();
-                            }
-                            isLoading = true;
-                        }
-                    }
-                });
-            }
-
-            public void setOnLoadMoreListener(OnLoadMoreListener mOnLoadMoreListener) {
-                this.mOnLoadMoreListener = mOnLoadMoreListener;
-            }
-
-            @Override
-            public int getItemViewType(int position) {
-                return reviewList.get(position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
-            }
-
-            @Override
-            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                if (viewType == VIEW_TYPE_ITEM) {
-                    View view = LayoutInflater.from(ShowDataActivity.this).inflate(R.layout.layout_user_item, parent, false);
-                    return new UserViewHolder(view);
-                } else if (viewType == VIEW_TYPE_LOADING) {
-                    View view = LayoutInflater.from(ShowDataActivity.this).inflate(R.layout.layout_loading_item, parent, false);
-                    return new LoadingViewHolder(view);
-                }
-                return null;
-            }
-
-            @Override
-            public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-                if (holder instanceof UserViewHolder) {
-                    Review r = reviewList.get(position);
-                    UserViewHolder userViewHolder = (UserViewHolder) holder;
-
-
-                    userViewHolder.tvrating.setText(String.valueOf(r.rating));
-                    userViewHolder.tvdate.setText(r.dateOfReview);
-                    userViewHolder.tvmsg.setText(r.comments);
-
-                } else if (holder instanceof LoadingViewHolder) {
-                    LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;
-                    loadingViewHolder.progressBar.setIndeterminate(true);
-                }
-            }
-
-            @Override
-            public int getItemCount() {
-                return reviewList == null ? 0 : reviewList.size();
-            }
-
-            public void setLoaded() {
-                isLoading = false;
-            }
-        }
-
 
 
 
