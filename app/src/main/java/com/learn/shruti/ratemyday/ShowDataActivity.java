@@ -115,6 +115,7 @@ public class ShowDataActivity extends AppCompatActivity {
                     else
                     {
                         rvadapter = new ReviewAdapter(reviewsearchList);
+                        mRecyclerView.setAdapter(rvadapter);
                     }
                 }
 
