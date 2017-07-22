@@ -119,7 +119,7 @@ public class ShowDataActivity extends AppCompatActivity {
                     }
                 }
 
-                Toast.makeText(ShowDataActivity.this,"submitted",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(ShowDataActivity.this,"submitted",Toast.LENGTH_SHORT).show();
                 return false;
             }
 
@@ -164,7 +164,8 @@ public class ShowDataActivity extends AppCompatActivity {
 
                         if(r.employeeEmail.equals(userEmail))
                             reviewList.add(r);
-                        Toast.makeText(ShowDataActivity.this,"com: " + r.comments + ", rate " + r.rating,Toast.LENGTH_SHORT).show();
+                            mRecyclerView.setAdapter(new ReviewAdapter(reviewList));
+                        //Toast.makeText(ShowDataActivity.this,"com: " + r.comments + ", rate " + r.rating,Toast.LENGTH_SHORT).show();
                          }
                 }
 
@@ -210,6 +211,8 @@ public class ShowDataActivity extends AppCompatActivity {
         searchItem.expandActionView();
         searchView.setQuery("", false);
         searchView.clearFocus();
+        rvadapter = new ReviewAdapter(reviewList);
+        mRecyclerView.setAdapter(rvadapter);
         super.onBackPressed();
     }
 }
