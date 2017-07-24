@@ -85,6 +85,20 @@ public class ShowDataActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.search, menu);
         getMenuInflater().inflate(R.menu.menuaftersearch, menu);
 
+       /* menu.findItem(R.menu.menuaftersearch).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+
+                switch (menuItem.getItemId())
+                {
+                    case R.id.rate: Toast.makeText(ShowDataActivity.this,"rating selected",Toast.LENGTH_SHORT).show();
+                    break;
+                    case R.id.logout: Toast.makeText(ShowDataActivity.this,"logout selected",Toast.LENGTH_SHORT).show();
+                        break;
+                }
+                return false;
+            }
+        });*/
         searchItem = menu.findItem(R.id.search);
 
         searchView =
@@ -173,22 +187,23 @@ public class ShowDataActivity extends AppCompatActivity {
 
 
 
-   /* @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_settings:
-                Intent intent = new Intent(this, MyPreferences.class);
-                startActivity(intent);
-                Toast.makeText(this, "Action Settings selected", Toast.LENGTH_SHORT)
-                        .show();
-                break;
 
-            default:
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case R.id.rate:
+                Toast.makeText(ShowDataActivity.this, "rating selected", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(ShowDataActivity.this,RateDayActivity.class));
+                break;
+            case R.id.logout:
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(ShowDataActivity.this,LoginSignupActivity.class));
+                Toast.makeText(ShowDataActivity.this, "logout selected", Toast.LENGTH_SHORT).show();
                 break;
         }
 
         return true;
-    }*/
+    }
 
 
 
