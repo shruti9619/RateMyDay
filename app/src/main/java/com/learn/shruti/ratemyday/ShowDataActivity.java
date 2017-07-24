@@ -83,6 +83,8 @@ public class ShowDataActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.search, menu);
+        getMenuInflater().inflate(R.menu.menuaftersearch, menu);
+
         searchItem = menu.findItem(R.id.search);
 
         searchView =
@@ -168,6 +170,26 @@ public class ShowDataActivity extends AppCompatActivity {
         MenuItemCompat.setOnActionExpandListener(searchItem, expandListener);
         return super.onCreateOptionsMenu(menu);
     }
+
+
+
+   /* @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                Intent intent = new Intent(this, MyPreferences.class);
+                startActivity(intent);
+                Toast.makeText(this, "Action Settings selected", Toast.LENGTH_SHORT)
+                        .show();
+                break;
+
+            default:
+                break;
+        }
+
+        return true;
+    }*/
+
 
 
 
