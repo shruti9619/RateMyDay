@@ -58,7 +58,7 @@ public class ShowDataActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
-
+        rvadapter = new ReviewAdapter(reviewList);
         auth = FirebaseAuth.getInstance();
 
         mDatabase = FirebaseDatabase.getInstance().getReference("reviews");
@@ -70,7 +70,7 @@ public class ShowDataActivity extends AppCompatActivity {
             Toast.makeText(this,"Data fetch failed! Please try again ",Toast.LENGTH_SHORT).show();
         }
 
-        rvadapter = new ReviewAdapter(reviewList);
+        rvadapter.notifyDataSetChanged();
         mRecyclerView.setAdapter(rvadapter);
         rvadapter.notifyDataSetChanged();
 
@@ -100,6 +100,7 @@ public class ShowDataActivity extends AppCompatActivity {
                     searchView.setQuery("", false);
                     reviewsearchList.clear();
                     rvadapter = new ReviewAdapter(reviewList);
+                    rvadapter.notifyDataSetChanged();
                     mRecyclerView.setAdapter(rvadapter);
                     rvadapter.notifyDataSetChanged();
                 }
@@ -131,6 +132,7 @@ public class ShowDataActivity extends AppCompatActivity {
                     else
                     {
                         rvadapter = new ReviewAdapter(reviewsearchList);
+                        rvadapter.notifyDataSetChanged();
                         mRecyclerView.setAdapter(rvadapter);
                         rvadapter.notifyDataSetChanged();
                     }
@@ -188,6 +190,7 @@ public class ShowDataActivity extends AppCompatActivity {
 
                         //Toast.makeText(ShowDataActivity.this,"com: " + r.comments + ", rate " + r.rating,Toast.LENGTH_SHORT).show();
                          }
+                    rvadapter.notifyDataSetChanged();
 
                 }
 
