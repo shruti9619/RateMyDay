@@ -72,7 +72,7 @@ public class ShowDataActivity extends AppCompatActivity {
 
         rvadapter.notifyDataSetChanged();
         mRecyclerView.setAdapter(rvadapter);
-        rvadapter.notifyDataSetChanged();
+        //rvadapter.notifyDataSetChanged();
 
         alarmSetter();
 
@@ -85,20 +85,7 @@ public class ShowDataActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.search, menu);
         getMenuInflater().inflate(R.menu.menuaftersearch, menu);
 
-       /* menu.findItem(R.menu.menuaftersearch).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
 
-                switch (menuItem.getItemId())
-                {
-                    case R.id.rate: Toast.makeText(ShowDataActivity.this,"rating selected",Toast.LENGTH_SHORT).show();
-                    break;
-                    case R.id.logout: Toast.makeText(ShowDataActivity.this,"logout selected",Toast.LENGTH_SHORT).show();
-                        break;
-                }
-                return false;
-            }
-        });*/
         searchItem = menu.findItem(R.id.search);
 
         searchView =
@@ -217,7 +204,8 @@ public class ShowDataActivity extends AppCompatActivity {
             mDatabase.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-
+                        reviewList.clear();
+                        rvadapter.notifyDataSetChanged();
                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                         //Getting the data from snapshot
                         Review r = postSnapshot.getValue(Review.class);
