@@ -20,30 +20,27 @@
             android:textColor="@android:color/holo_red_dark" android:textSize="36px" android:textAlignment="center"
             android:textStyle="bold"/>
 
-    <RadioButton
+    <CheckBox
             android:text="@string/radioabsent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/absentradiobutton"
-            android:padding="10px" android:textColor="@android:color/black"
-            android:background="?android:attr/colorControlHighlight"
-            android:textSize="40px"
-            android:layout_marginLeft="10px" android:layout_marginRight="10px" android:layout_marginTop="46dp"
-            android:layout_alignTop="@+id/textView" android:layout_centerHorizontal="true"/>
+            android:id="@+id/absentcheckbox"
+            android:layout_below="@+id/textView" android:layout_centerHorizontal="true"/>
+
 
     <HorizontalScrollView
             android:id="@+id/horizontalScrollView2"
             android:layout_width="match_parent"
-            android:layout_height="250px"
-            android:layout_below="@id/absentradiobutton"
-            android:layout_alignParentStart="true" android:layout_marginTop="27dp">
+            android:layout_below="@id/absentcheckbox"
+            android:layout_alignParentStart="true" android:layout_marginTop="27dp" android:layout_height="210px">
+
         <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
                       android:orientation="vertical" android:layout_margin="0px" android:padding="0px">
         <RatingBar
                 android:layout_width="match_parent"
                 android:layout_weight="0.1"
                 android:numStars="10"
-                android:stepSize="0.0"
+                android:stepSize="1"
                 android:id="@+id/dayratingBar"
                 android:layout_marginLeft="1px" android:layout_marginRight="1px"
                 android:padding="50px" android:layout_below="@+id/absentradiobutton"
@@ -52,6 +49,9 @@
                 android:paddingLeft="0px" android:paddingRight="10px"/>
         </LinearLayout>
     </HorizontalScrollView>
+    <TextView android:layout_width="match_parent" android:layout_height="30px"
+              android:text="Scroll left and right for more stars"
+              android:layout_below="@id/horizontalScrollView2" android:textAlignment="center"/>
     <Button
             android:text="@string/savebutton"
             android:layout_width="match_parent"
@@ -80,4 +80,5 @@
             android:layout_height="250px"
             android:background="?attr/colorControlHighlight" android:padding="10px"
             android:layout_below="@+id/sharetextlabel" android:layout_alignEnd="@+id/saveratingbutton"/>
+
 </RelativeLayout>

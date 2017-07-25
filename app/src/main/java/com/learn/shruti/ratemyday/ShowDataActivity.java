@@ -222,8 +222,10 @@ public class ShowDataActivity extends AppCompatActivity {
                         //Getting the data from snapshot
                         Review r = postSnapshot.getValue(Review.class);
 
+                        // checking so that detail of right user is fetched and data is not repeated in list
                         if(r.employeeEmail.equals(userEmail))
-                            reviewList.add(r);
+                            if(!reviewList.contains(r))
+                                reviewList.add(r);
 
                         //Toast.makeText(ShowDataActivity.this,"com: " + r.comments + ", rate " + r.rating,Toast.LENGTH_SHORT).show();
                          }
