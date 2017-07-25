@@ -45,6 +45,7 @@ public class RateDayActivity extends AppCompatActivity {
 
 
         auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
         initCheck();
 
 
@@ -107,7 +108,7 @@ public class RateDayActivity extends AppCompatActivity {
                     //Getting the data from snapshot
                     Review r = postSnapshot.getValue(Review.class);
                     //checking if this user has already reviewed on this date
-                    if(r.dateOfReview.equalsIgnoreCase( dateFormat.format(new Date()))&&(r.employeeEmail.equals(userEmail)))
+                    if((r.dateOfReview.equalsIgnoreCase( dateFormat.format(new Date())))&&(r.employeeEmail.equals(userEmail)))
                     {
                         reviewList.add(r);
                     }
