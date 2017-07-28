@@ -68,6 +68,7 @@ public class RateDayActivity extends AppCompatActivity {
                 }
             }
         });
+        // saving ratings of employees
         saveratingbut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -124,6 +125,8 @@ public class RateDayActivity extends AppCompatActivity {
 
     }
 
+
+    //
     private void writeRatingsToFirebase()
     {
         user = auth.getCurrentUser();
@@ -133,7 +136,10 @@ public class RateDayActivity extends AppCompatActivity {
             final String userEmail = user.getEmail();
 
             DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+
+            // to get reference of user where email id is equal to current user email id
             Query usernamequery = mDatabase.child("users").orderByChild("empEmail").equalTo(userEmail);
+
             usernamequery.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -149,10 +155,10 @@ public class RateDayActivity extends AppCompatActivity {
                             //to check whether the user has entered any comments or not and replace empty with NA
                             if(feedbacktext.getText()!=null)
                             {
-                                if (feedbacktext.getText().toString().length()<=0)
-                                com = "NA";
+                                if (feedbacktext.getText().toString().length() <= 0)
+                                    com = "NA";
                                 else
-                                com = feedbacktext.getText().toString();
+                                    com = feedbacktext.getText().toString();
                             }
 
                             DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -176,11 +182,11 @@ public class RateDayActivity extends AppCompatActivity {
                 }
             });
         }
+
         catch (Exception e)
         {
             //exception caught . no action required
         }
-
 
     }
 }

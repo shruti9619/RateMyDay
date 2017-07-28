@@ -99,7 +99,7 @@ public class ShowDataActivity extends AppCompatActivity {
             public void onFocusChange(View view, boolean isFocused) {
                 if(!isFocused)
                 {
-                    Toast.makeText(ShowDataActivity.this,"bar not focused now",Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(ShowDataActivity.this,"bar not focused now",Toast.LENGTH_SHORT).show();
                     searchView.setQuery("", false);
                     reviewsearchList.clear();
                     rvadapter = new ReviewAdapter(reviewList);
@@ -179,13 +179,13 @@ public class ShowDataActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.rate:
-                Toast.makeText(ShowDataActivity.this, "rating selected", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(ShowDataActivity.this, "rating selected", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(ShowDataActivity.this,RateDayActivity.class));
                 break;
             case R.id.logout:
                 FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(ShowDataActivity.this,LoginSignupActivity.class));
-                Toast.makeText(ShowDataActivity.this, "logout selected", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(ShowDataActivity.this, "logout selected", Toast.LENGTH_SHORT).show();
                 break;
         }
 
@@ -194,7 +194,7 @@ public class ShowDataActivity extends AppCompatActivity {
 
 
 
-
+        // method to get reviews from the review db
         private void getDataFromFirebase()
         {
             user = auth.getCurrentUser();
@@ -215,8 +215,7 @@ public class ShowDataActivity extends AppCompatActivity {
                             if(!reviewList.contains(r))
                                 reviewList.add(r);
 
-                        //Toast.makeText(ShowDataActivity.this,"com: " + r.comments + ", rate " + r.rating,Toast.LENGTH_SHORT).show();
-                         }
+                        }
                     rvadapter.notifyDataSetChanged();
 
                 }
@@ -231,7 +230,7 @@ public class ShowDataActivity extends AppCompatActivity {
         }
 
 
-
+        // alarm setting to set notification to raise alert at 8 pm to send review
         private void alarmSetter()
         {
             PendingIntent pendingIntent;
@@ -244,13 +243,15 @@ public class ShowDataActivity extends AppCompatActivity {
 
             Calendar alarmStartTime = Calendar.getInstance();
             Calendar now = Calendar.getInstance();
-            alarmStartTime.set(Calendar.HOUR_OF_DAY, 1);
-            alarmStartTime.set(Calendar.MINUTE, 45);
+            alarmStartTime.set(Calendar.HOUR_OF_DAY, 16);
+            alarmStartTime.set(Calendar.MINUTE, 0);
             alarmStartTime.set(Calendar.SECOND, 0);
+
             if (now.after(alarmStartTime)) {
 
                 alarmStartTime.add(Calendar.DATE, 1);
             }
+
         /* Repeating every day at 8 pm */
             manager.setRepeating(AlarmManager.RTC_WAKEUP, alarmStartTime.getTimeInMillis(),
                     AlarmManager.INTERVAL_DAY, pendingIntent);

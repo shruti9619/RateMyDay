@@ -55,6 +55,7 @@ public class LoginSignupActivity extends AppCompatActivity {
             }
         });
 
+        //sign in button for authentication
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 String email = inputEmail.getText().toString();
