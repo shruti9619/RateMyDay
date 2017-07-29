@@ -84,7 +84,7 @@ public class RateDayActivity extends AppCompatActivity {
 
     }
 
-
+    //method to return boolean to check if list size is not zero then rating for the day has already been made
     private boolean checkForRated()
     {
         if (reviewList.size() > 0)
@@ -93,7 +93,7 @@ public class RateDayActivity extends AppCompatActivity {
             return false;
     }
 
-
+    //method to add to list if the rating for the day has already been made
     private void initCheck()
     {
         final String userEmail = user.getEmail();
@@ -126,7 +126,7 @@ public class RateDayActivity extends AppCompatActivity {
     }
 
 
-    //
+    // method to fetch correct user and write review data in firebase
     private void writeRatingsToFirebase()
     {
         user = auth.getCurrentUser();
@@ -169,6 +169,9 @@ public class RateDayActivity extends AppCompatActivity {
                             uDatabase.child(uDatabase.push().getKey()).setValue(newrev);
 
                             Toast.makeText(RateDayActivity.this, "Saved", Toast.LENGTH_SHORT).show();
+
+                            // break loop once rating has been made for the user
+                            break;
 
                         }
 

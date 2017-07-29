@@ -5,7 +5,7 @@
     <string name="email">Email</string>
     <string name="search">Date eg. 31/02/2017</string>
     <string name="savebutton">Save</string>
-    <string name="radioabsent">Were you absent today?</string>
+    <string name="radioabsent">Were you absent today or was it a holiday?</string>
     <string name="sharelabeltext">Got something to share?</string>
     <string name="sharelabelhint">Share views in 140 characters or less!</string>
     <string name="rateHead">Rate your day here</string>
