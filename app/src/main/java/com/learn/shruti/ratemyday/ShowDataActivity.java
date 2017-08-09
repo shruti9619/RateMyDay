@@ -24,10 +24,10 @@ import com.google.firebase.database.*;
 import com.learn.shruti.ratemyday.Model.Employee;
 import com.learn.shruti.ratemyday.Model.Review;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -70,6 +70,17 @@ public class ShowDataActivity extends AppCompatActivity {
             Toast.makeText(this,"Data fetch failed! Please try again ",Toast.LENGTH_SHORT).show();
         }
 
+        Collections.sort(reviewList, new Comparator<Review>() {
+            DateFormat f = new SimpleDateFormat("dd/MM/yyyy");
+            @Override
+            public int compare(Review o1, Review o2) {
+                try {
+                    return f.parse(o2.dateOfReview).compareTo(f.parse(o1.dateOfReview));
+                } catch (ParseException e) {
+                    throw new IllegalArgumentException(e);
+                }
+            }
+        });
         rvadapter.notifyDataSetChanged();
         mRecyclerView.setAdapter(rvadapter);
         //rvadapter.notifyDataSetChanged();
