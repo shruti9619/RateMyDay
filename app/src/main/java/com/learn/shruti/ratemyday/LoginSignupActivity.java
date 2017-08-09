@@ -76,7 +76,7 @@ public class LoginSignupActivity extends AppCompatActivity {
 
 
                 //authenticate user
-                auth.signInWithEmailAndPassword(email, password)
+                auth.signInWithEmailAndPassword(email,MD5Hasher.md5hash(password))
                         .addOnCompleteListener(LoginSignupActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {

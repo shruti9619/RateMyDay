@@ -44,14 +44,15 @@
                 android:id="@+id/dayratingBar"
                 android:layout_marginLeft="1px" android:layout_marginRight="1px"
                 android:padding="50px" android:layout_below="@+id/absentradiobutton"
-                android:layout_marginTop="10dp" android:isScrollContainer="false" android:layout_height="wrap_content"
-                android:layout_margin="10px" android:paddingTop="50px" android:paddingBottom="50px"
+                android:layout_marginTop="7dp" android:isScrollContainer="false" android:layout_height="wrap_content"
+                android:layout_margin="7px" android:paddingTop="50px" android:paddingBottom="50px"
                 android:paddingLeft="0px" android:paddingRight="10px"/>
         </LinearLayout>
     </HorizontalScrollView>
-    <TextView android:layout_width="match_parent" android:layout_height="30px"
+    <TextView android:layout_width="match_parent"
               android:text="Scroll left and right for more stars"
-              android:layout_below="@id/horizontalScrollView2" android:textAlignment="center"/>
+              android:layout_below="@id/horizontalScrollView2" android:textAlignment="center" android:padding="1dp"
+              android:layout_height="30px" android:textSize="12sp"/>
     <Button
             android:text="@string/savebutton"
             android:layout_width="match_parent"
@@ -60,16 +61,6 @@
             android:layout_marginLeft="20px" android:layout_alignParentEnd="true"
             android:layout_alignParentStart="true" android:background="@color/colorAccent"/>
 
-    <TextView
-            android:text="@string/sharelabeltext"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/sharetextlabel"
-            android:textSize="48px" android:textAlignment="center"
-            android:textColor="@android:color/holo_red_dark" android:layout_marginLeft="40px"
-            android:layout_marginRight="40px"
-            android:layout_below="@+id/horizontalScrollView2" android:layout_alignStart="@+id/feedbacktext"
-            android:layout_marginTop="17dp"/>
     <EditText
             android:layout_width="match_parent"
             android:inputType="textMultiLine"
@@ -79,6 +70,16 @@
             android:layout_marginRight="20px"
             android:layout_height="250px"
             android:background="?attr/colorControlHighlight" android:padding="10px"
-            android:layout_below="@+id/sharetextlabel" android:layout_alignEnd="@+id/saveratingbutton"/>
+            android:layout_above="@+id/saveratingbutton" android:layout_alignEnd="@+id/saveratingbutton"
+            android:layout_marginBottom="11dp"/>
+    <TextView
+            android:text="@string/sharelabeltext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/sharetextlabel"
+            android:textSize="48px" android:textAlignment="center"
+            android:textColor="@android:color/holo_red_dark" android:layout_marginLeft="40px"
+            android:layout_marginRight="40px"
+            android:layout_above="@+id/feedbacktext" android:layout_alignEnd="@+id/feedbacktext"/>
 
 </RelativeLayout>
