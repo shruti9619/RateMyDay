@@ -8,10 +8,18 @@
             app:showAsAction="ifRoom"
             android:icon="@mipmap/ic_star_rate"
             android:title="Rate"/>
+
+    <item
+            android:id="@+id/anonymmenu"
+            android:orderInCategory="100"
+            app:showAsAction="never"
+            android:title="Safe Complaint"/>
+
+
     <item
             android:id="@+id/logout"
             android:orderInCategory="100"
-            app:showAsAction="ifRoom"
+            app:showAsAction="never"
             android:title="Logout"/>
 
 

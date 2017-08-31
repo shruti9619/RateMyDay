@@ -1,11 +1,12 @@
 package com.learn.shruti.ratemyday.Model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by Shruti on 18/07/2017.
  */
-public class Review {
+public class Review implements Serializable{
     public double rating;
     public String dateOfReview;
     public String comments;

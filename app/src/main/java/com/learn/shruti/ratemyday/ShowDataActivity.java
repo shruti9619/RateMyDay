@@ -6,6 +6,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -35,7 +36,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class ShowDataActivity extends AppCompatActivity {
 
     RecyclerView mRecyclerView;
-    private List<Review> reviewList;
+    private ArrayList<Review> reviewList;
     private List<Review> reviewsearchList;
     private ReviewAdapter mReviewAdapter;
     private FirebaseAuth auth;
@@ -44,6 +45,7 @@ public class ShowDataActivity extends AppCompatActivity {
     private ReviewAdapter rvadapter;
     MenuItem searchItem;
     SearchView searchView;
+    FloatingActionButton plotfab;
 
 
     @Override
@@ -51,8 +53,12 @@ public class ShowDataActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_data);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycleView);
-        reviewList = new ArrayList<>();
+        reviewList = new ArrayList<Review>();
+
         reviewsearchList = new ArrayList<>();
+
+
+
 
         //mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -70,20 +76,12 @@ public class ShowDataActivity extends AppCompatActivity {
             Toast.makeText(this,"Data fetch failed! Please try again ",Toast.LENGTH_SHORT).show();
         }
 
-        Collections.sort(reviewList, new Comparator<Review>() {
-            DateFormat f = new SimpleDateFormat("dd/MM/yyyy");
-            @Override
-            public int compare(Review o1, Review o2) {
-                try {
-                    return f.parse(o2.dateOfReview).compareTo(f.parse(o1.dateOfReview));
-                } catch (ParseException e) {
-                    throw new IllegalArgumentException(e);
-                }
-            }
-        });
+
         rvadapter.notifyDataSetChanged();
         mRecyclerView.setAdapter(rvadapter);
         //rvadapter.notifyDataSetChanged();
+
+
 
         alarmSetter();
 
@@ -227,6 +225,18 @@ public class ShowDataActivity extends AppCompatActivity {
                                 reviewList.add(r);
 
                         }
+
+                    Collections.sort(reviewList, new Comparator<Review>() {
+                        DateFormat f = new SimpleDateFormat("dd/MM/yyyy");
+                        @Override
+                        public int compare(Review o1, Review o2) {
+                            try {
+                                return f.parse(o2.dateOfReview).compareTo(f.parse(o1.dateOfReview));
+                            } catch (ParseException e) {
+                                throw new IllegalArgumentException(e);
+                            }
+                        }
+                    });
                     rvadapter.notifyDataSetChanged();
 
                 }

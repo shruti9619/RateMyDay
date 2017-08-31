@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.learn.shruti.ratemyday">
 
-
     <application
             android:allowBackup="true"
             android:icon="@drawable/star_small"
@@ -33,7 +32,6 @@
                 android:name=".AlarmReceiver"
                 android:enabled="true"
                 android:exported="true">
-
         </receiver>
         <receiver
                 android:name=".DeviceOnReceiver"
@@ -43,6 +41,7 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
         </receiver>
+
     </application>
 
 </manifest>
