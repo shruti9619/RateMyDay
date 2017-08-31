@@ -1,13 +1,15 @@
 package com.learn.shruti.ratemyday.Model;
 
+import java.io.Serializable;
+
 /**
  * Created by Shruti on 31/08/2017.
  */
-public class AnonymousComplaint {
+public class AnonymousComplaint implements Serializable{
 
-    String Issue;
-    String details;
-    String dateOfIssue;
+    public String Issue;
+    public String details;
+    public String dateOfIssue;
 
 
     public AnonymousComplaint() {

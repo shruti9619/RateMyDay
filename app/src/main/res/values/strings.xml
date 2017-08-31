@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">RateMyDay</string>
 
+
     <string name="action_sign_in_short">Register</string>
     <string name="email">Email</string>
     <string name="search">Date eg. 31/02/2017</string>

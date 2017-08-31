@@ -191,6 +191,10 @@ public class ShowDataActivity extends AppCompatActivity {
                 //Toast.makeText(ShowDataActivity.this, "rating selected", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(ShowDataActivity.this,RateDayActivity.class));
                 break;
+            case R.id.anonymmenu:
+                startActivity(new Intent(ShowDataActivity.this,SafeCompActivity.class));
+                break;
+
             case R.id.logout:
                 FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(ShowDataActivity.this,LoginSignupActivity.class));

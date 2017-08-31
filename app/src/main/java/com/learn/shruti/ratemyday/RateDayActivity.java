@@ -188,7 +188,8 @@ public class RateDayActivity extends AppCompatActivity {
 
         catch (Exception e)
         {
-            //exception caught . no action required
+            Toast.makeText(RateDayActivity.this, "Failed to submit! try again",Toast.LENGTH_SHORT)
+                    .show();
         }
 
     }
